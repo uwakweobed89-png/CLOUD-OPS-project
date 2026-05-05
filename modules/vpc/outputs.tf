@@ -19,3 +19,18 @@ output "nat_gateway_ids" {
     description = "NAT Gateway IDs"
     value       = [aws_nat_gateway.az1.id, aws_nat_gateway.az2.id]
 }
+
+output "alb_sg_id" {
+    description = "ALB security group ID"
+    value       = aws_security_group.alb.id
+}
+
+output "app_sg_id" {
+    description = "App security group ID"
+    value       = aws_security_group.app.id
+}
+
+output "rds_sg_id" {
+    description = "RDS security group ID"
+    value       = aws_security_group.rds.id
+}
