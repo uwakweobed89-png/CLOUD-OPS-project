@@ -12,3 +12,21 @@ npm-debug.log*
 # environment files
 .env
 .env.local
+
+# MacOS files
+.DS_Store
+thumbs.db
+desktop.ini
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# AWS 
+trust-policy.json
+task-definition.json
+*.pem
+*.key
+.aws/ 
+
+# Docker
+.docker/
