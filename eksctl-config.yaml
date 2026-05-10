@@ -1,0 +1,26 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cloudops-cluster-eks
+  region: us-east-1
+
+vpc:
+  id: vpc-06f10a738ab17a738
+  subnets:
+    public:
+      us-east-1a:
+        id: subnet-05978d11fcfaadaef
+      us-east-1b:
+        id: subnet-0ac30caf88f249682
+    private:
+      us-east-1a:
+        id: subnet-0cae1f75d9da39b6c
+      us-east-1b:
+        id: subnet-0a3b40884c256cc3a
+
+fargateProfiles:
+  - name: default
+    selectors:
+      - namespace: default
+      - namespace: kube-system
