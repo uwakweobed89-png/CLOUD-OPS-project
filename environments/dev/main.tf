@@ -1,7 +1,14 @@
 # environments/dev/main.tf
-# environments/dev/main.tf
+
 
 terraform {
+    backend "s3" {
+    bucket         = "myapp-terraform-state-326709068429"
+    key            = "dev/vpc/terraform.tfstate"
+    region         = "us-east-1"
+    use_lockfile   = true
+    encrypt        = true
+    }
     required_providers {
     aws = {
     source  = "hashicorp/aws"
