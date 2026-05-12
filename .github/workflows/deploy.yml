@@ -1,5 +1,7 @@
 # .github/workflows/deploy.yml
 
+# .github/workflows/deploy.yml
+
 name: Build and Deploy to ECS
 
 on:
@@ -21,24 +23,28 @@ permissions:
   contents: read
 
 jobs:
-  build-and-deploy:
+   build-and-deploy:
     name: Build, Scan and Deploy
     runs-on: ubuntu-latest
 
     steps:
+        # Step 1 — Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
+        # Step 2 — Configure AWS credentials via OIDC
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::326709068429:role/GitHubActionsRole
           aws-region: us-east-1
 
+        # Step 3 — Login to ECR
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
+        # Step 4 — Build Docker image
       - name: Build Docker image
         run: |
           docker build \
@@ -47,6 +53,7 @@ jobs:
             -t ${{ env.ECR_REPOSITORY }}:latest \
             ./app
 
+        # Step 5 — Scan image with Trivy
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
@@ -55,6 +62,7 @@ jobs:
           exit-code: 0
           severity: CRITICAL,HIGH
 
+        # Step 6 — Push to ECR
       - name: Push to ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -66,6 +74,7 @@ jobs:
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
 
+        # Step 7 — Download current task definition
       - name: Download task definition
         run: |
           aws ecs describe-task-definition \
@@ -73,6 +82,7 @@ jobs:
             --query taskDefinition \
             > task-def.json
 
+        # Step 8 — Update task definition with new image
       - name: Update ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -81,6 +91,7 @@ jobs:
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
 
+        # Step 9 — Deploy to ECS
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
@@ -88,4 +99,3 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
-
