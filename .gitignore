@@ -30,3 +30,9 @@ task-definition.json
 
 # Docker
 .docker/
+
+
+# Ignore Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
