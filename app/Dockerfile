@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -11,7 +11,7 @@ RUN npm ci --omit=dev
 COPY src ./src
 
 # runtime image
-FROM node:20-alpine AS runtime
+FROM node:22-alpine AS runtime
 
 #security best practices as non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
