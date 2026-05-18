@@ -1,0 +1,42 @@
+{
+    "name": "cloudops-api-build",
+    "description": "Build Docker image for cloudops-api",
+    "source": {
+    "type": "CODECOMMIT",
+    "location": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/cloudops-api",
+    "buildspec": "buildspec.yml"
+    },
+    "artifacts": {
+    "type": "S3",
+    "location": "myapp-codepipeline-artifacts-326709068429",
+    "name": "build-output",
+    "packaging": "ZIP"
+    },
+    "environment": {
+    "type": "LINUX_CONTAINER",
+    "image": "aws/codebuild/standard:7.0",
+    "computeType": "BUILD_GENERAL1_SMALL",
+    "privilegedMode": true,
+    "environmentVariables": [
+    {
+        "name": "AWS_DEFAULT_REGION",
+        "value": "us-east-1"
+    },
+        {
+        "name": "ECR_REGISTRY",
+        "value": "326709068429.dkr.ecr.us-east-1.amazonaws.com"
+    },
+        {
+        "name": "ECR_REPOSITORY",
+        "value": "cloudops-api"
+    }
+    ]
+    },
+    "serviceRole": "arn:aws:iam::326709068429:role/CodeBuildRole",
+    "logsConfig": {
+    "cloudWatchLogs": {
+    "status": "ENABLED",
+    "groupName": "/codebuild/cloudops-api"
+    }
+    }
+}
