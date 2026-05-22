@@ -1,0 +1,52 @@
+{
+"widgets": [
+    {
+    "type": "metric",
+    "properties": {
+        "title": "ECS CPU Utilization",
+        "metrics": [
+        ["AWS/ECS", "CPUUtilization", "ClusterName", "cloudops-cluster", "ServiceName", "cloudops-api-service"]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "view": "timeSeries"
+    }
+    },
+    {
+    "type": "metric",
+    "properties": {
+        "title": "ECS Memory Utilization",
+        "metrics": [
+        ["AWS/ECS", "MemoryUtilization", "ClusterName", "cloudops-cluster", "ServiceName", "cloudops-api-service"]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "view": "timeSeries"
+    }
+    },
+    {
+    "type": "metric",
+    "properties": {
+        "title": "ECS Running Task Count",
+        "metrics": [
+        ["AWS/ECS", "RunningTaskCount", "ClusterName", "cloudops-cluster", "ServiceName", "cloudops-api-service"]
+        ],
+        "period": 60,
+        "stat": "Average",
+        "region": "us-east-1",
+        "view": "timeSeries"
+    }
+    },
+    {
+    "type": "log",
+    "properties": {
+        "title": "ECS Container Logs",
+        "query": "SOURCE '/ecs/cloudops-api' | fields @timestamp, @message | sort @timestamp desc | limit 20",
+        "region": "us-east-1",
+        "view": "table"
+    }
+    }
+    ]
+}
