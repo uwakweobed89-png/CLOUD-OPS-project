@@ -1,0 +1,7 @@
+{
+"ConfigRuleName": "vpc-flow-logs-enabled",
+"Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "VPC_FLOW_LOGS_ENABLED"
+}
+}

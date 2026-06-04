@@ -1,0 +1,37 @@
+[
+{
+    "ConfigRuleName": "cloudtrail-enabled",
+    "Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "CLOUD_TRAIL_ENABLED"
+    }
+},
+{
+    "ConfigRuleName": "s3-bucket-encryption-enabled",
+    "Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
+    }
+},
+{
+    "ConfigRuleName": "restricted-ssh",
+    "Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "INCOMING_SSH_DISABLED"
+    }
+},
+{
+    "ConfigRuleName": "root-account-mfa-enabled",
+    "Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "ROOT_ACCOUNT_MFA_ENABLED"
+    }
+},
+{
+    "ConfigRuleName": "ecs-no-environment-secrets",
+    "Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "ECS_NO_ENVIRONMENT_SECRETS"
+    }
+}
+]

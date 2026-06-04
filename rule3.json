@@ -1,0 +1,7 @@
+{
+"ConfigRuleName": "restricted-ssh",
+"Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "INCOMING_SSH_DISABLED"
+}
+}

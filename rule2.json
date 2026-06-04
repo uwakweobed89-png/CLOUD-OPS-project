@@ -1,0 +1,7 @@
+{
+"ConfigRuleName": "s3-bucket-encryption-enabled",
+"Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
+}
+}

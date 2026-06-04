@@ -1,0 +1,7 @@
+{
+"ConfigRuleName": "root-account-mfa-enabled",
+"Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "ROOT_ACCOUNT_MFA_ENABLED"
+}
+}
