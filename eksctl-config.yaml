@@ -6,21 +6,22 @@ metadata:
   region: us-east-1
 
 vpc:
-  id: vpc-0cf640cf3c2a608d6
+  id: vpc-077d27d9a112d19d0
   subnets:
     public:
       us-east-1a:
-        id: subnet-01e563b642ddb3383
+        id: subnet-0e2d0a1a945e86870
       us-east-1b:
-        id: subnet-06ea7a7cff49f8506
+        id: subnet-0a355f3953d30d5ed
     private:
       us-east-1a:
-        id: subnet-0de9f62039626afe1
+        id: subnet-0c4b81e63c9d3db3f
       us-east-1b:
-        id: subnet-01073b7d598d3295d
+        id: subnet-042b4a91c6706da66
 
 fargateProfiles:
   - name: default
     selectors:
       - namespace: default
       - namespace: kube-system
+      - namespace: monitoring
