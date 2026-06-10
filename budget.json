@@ -1,0 +1,23 @@
+{
+"BudgetName": "CloudOps-Monthly-Budget",
+"BudgetLimit": {
+    "Amount": "50",
+    "Unit": "USD"
+},
+"TimeUnit": "MONTHLY",
+"BudgetType": "COST",
+"CostFilters": {},
+"CostTypes": {
+    "IncludeTax": true,
+    "IncludeSubscription": true,
+    "UseBlended": false,
+    "IncludeRefund": false,
+    "IncludeCredit": false,
+    "IncludeUpfront": true,
+    "IncludeRecurring": true,
+    "IncludeOtherSubscription": true,
+    "IncludeSupport": true,
+    "IncludeDiscount": true,
+    "UseAmortized": false
+}
+}
