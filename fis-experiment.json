@@ -1,0 +1,36 @@
+{
+"description": "Stop ECS task to test self-healing",
+"targets": {
+    "ecs-tasks": {
+    "resourceType": "aws:ecs:task",
+    "resourceArns": [],
+    "filters": [
+        {
+        "path": "clusterArn",
+        "values": ["arn:aws:ecs:us-east-1:326709068429:cluster/cloudops-cluster"]
+        }
+    ],
+    "selectionMode": "COUNT(1)"
+    }
+},
+"actions": {
+    "stop-ecs-task": {
+    "actionId": "aws:ecs:stop-task",
+    "parameters": {},
+    "targets": {
+        "Tasks": "ecs-tasks"
+    }
+    }
+},
+"stopConditions": [
+    {
+    "source": "none"
+    }
+],
+"roleArn": "arn:aws:iam::326709068429:role/FISRole",
+"tags": {
+    "Name": "cloudops-ecs-chaos-test",
+    "Environment": "dev",
+    "Purpose": "resilience-testing"
+}
+}
