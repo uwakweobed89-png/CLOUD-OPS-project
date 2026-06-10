@@ -1,0 +1,8 @@
+{
+"TargetValue": 80.0,
+"PredefinedMetricSpecification": {
+    "PredefinedMetricType": "ECSServiceAverageMemoryUtilization"
+},
+"ScaleOutCooldown": 60,
+"ScaleInCooldown": 120
+}
