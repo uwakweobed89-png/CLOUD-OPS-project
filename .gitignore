@@ -36,5 +36,7 @@ task-definition.json
 terraform.tfstate
 terraform.tfstate.backup
 .terraform.lock.hcl
+
+# Sensitive values — NEVER commit these
 terraform.tfvars
 *.tfvars
