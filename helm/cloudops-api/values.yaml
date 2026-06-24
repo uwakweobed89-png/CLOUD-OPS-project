@@ -1,0 +1,46 @@
+# Default values for cloudops-api
+# These are dev environment defaults
+
+replicaCount: 2
+
+image:
+  repository: 326709068429.dkr.ecr.us-east-1.amazonaws.com/cloudops-api
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  scheme: internet-facing
+  targetType: ip
+  healthcheckPath: /health
+
+resources:
+  requests:
+    cpu: "256m"
+    memory: "512Mi"
+  limits:
+    cpu: "512m"
+    memory: "1024Mi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+env:
+  AWS_REGION: "us-east-1"
+  DB_SECRET_ARN: "arn:aws:secretsmanager:us-east-1:326709068429:secret:cloudops/rds/credentials-S2y2yH"
+
+healthCheck:
+  path: /health
+  initialDelaySeconds: 30
+  periodSeconds: 30
+
+serviceAccount:
+  name: "cloudops-api-sa"

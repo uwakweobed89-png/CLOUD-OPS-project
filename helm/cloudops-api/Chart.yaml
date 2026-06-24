@@ -1,0 +1,6 @@
+apiVersion: v2
+name: cloudops-api
+description: CloudOps API service - Node.js Express API on EKS Fargate
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
