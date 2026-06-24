@@ -25,3 +25,4 @@ fargateProfiles:
       - namespace: default
       - namespace: kube-system
       - namespace: monitoring
+      - namespace: argocd  

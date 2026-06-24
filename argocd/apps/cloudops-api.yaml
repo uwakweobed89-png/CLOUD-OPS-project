@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudops-api
+  namespace: argocd
+  labels:
+    project: cloudops
+  # Ensures ArgoCD deletes all resources when this app is deleted
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Which ArgoCD project this belongs to
+  project: default
+
+  # Where to get the app from — your GitHub repo
+  source:
+    repoURL: https://github.com/uwakweobed89-png/CLOUD-OPS-project.git
+    targetRevision: main
+    path: helm/cloudops-api
+    helm:
+      valueFiles:
+        - values.yaml
+
+  # Where to deploy it
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  # How ArgoCD manages the app
+  syncPolicy:
+    automated:
+      prune: true      # delete resources removed from Git
+      selfHeal: true   # correct any manual changes in the cluster
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
