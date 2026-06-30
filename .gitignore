@@ -48,3 +48,5 @@ terraform.tfvars
 # Root level state files
 *.tfstate
 *.tfstate.backup
+
+CLAUDE.md

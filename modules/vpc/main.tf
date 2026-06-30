@@ -29,3 +29,4 @@ resource "aws_internet_gateway" "main" {
     Name = "${var.project_name}-igw"
     }
 }
+
