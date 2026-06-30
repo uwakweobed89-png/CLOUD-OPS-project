@@ -58,6 +58,14 @@ async function checkDatabase() {
     }
 }
 
+app.get('/', (req, res) => {
+    res.json({
+        service: 'cloudops-api',
+        version: '1.0.0',
+        endpoints: ['/health', '/api/v1/data', '/api/v1/health-detailed']
+    });
+});
+
 app.get('/health', (req, res) => {
     res.json({
         status: 'healthy',
