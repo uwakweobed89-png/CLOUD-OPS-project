@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Recreate the NAT gateways + EIPs (targeted) and scale ECS services back up.
-# Counterpart to nat-down.sh.
+# Recreate the NAT gateways + EIPs (targeted), start any stopped RDS
+# instances, and scale ECS services back up. Counterpart to nat-down.sh.
 set -euo pipefail
 
 # cluster:service:desiredCount — keep in sync with nat-down.sh's SERVICES list.
@@ -8,8 +8,24 @@ SERVICES=(
   "cloudops-cluster:car-fintech-api-service:1"
 )
 
+# RDS instances that get stopped between sessions — add more as needed.
+RDS_INSTANCES=(
+  "car-fintech-postgres"
+)
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_DIR="$SCRIPT_DIR/../environments/dev"
+
+echo "== Starting RDS instances (if stopped) =="
+for db in "${RDS_INSTANCES[@]}"; do
+  status=$(aws rds describe-db-instances --db-instance-identifier "$db" --query "DBInstances[0].DBInstanceStatus" --output text)
+  if [ "$status" = "stopped" ]; then
+    echo "$db: stopped -> starting"
+    aws rds start-db-instance --db-instance-identifier "$db" >/dev/null
+  else
+    echo "$db: already $status"
+  fi
+done
 
 # nat-down.sh's targeted destroy of the NAT gateways also fully destroys the
 # private route tables AND their subnet associations (not just an in-place
@@ -29,6 +45,13 @@ terraform apply -input=false -auto-approve \
   -target=module.vpc.aws_route_table.private_az2 \
   -target=module.vpc.aws_route_table_association.private_az1 \
   -target=module.vpc.aws_route_table_association.private_az2
+
+echo "== Waiting for RDS instances to be available =="
+for db in "${RDS_INSTANCES[@]}"; do
+  echo "$db: waiting..."
+  aws rds wait db-instance-available --db-instance-identifier "$db"
+  echo "$db: available"
+done
 
 echo "== Waiting ~60s for NAT gateways to pass health checks before scaling up =="
 sleep 60
