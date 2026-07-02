@@ -7,7 +7,11 @@ resource "aws_subnet" "public_az1" {
     cidr_block              = "10.0.1.0/24"
     availability_zone       = "${var.aws_region}a"
     map_public_ip_on_launch = true
-    tags = { Name = "${var.project_name}-public-az1" }
+    tags = {
+      Name = "${var.project_name}-public-az1"
+      "kubernetes.io/cluster/cloudops-cluster-eks" = "shared"
+      "kubernetes.io/role/elb"                     = "1"
+    }
 }
 
 resource "aws_subnet" "public_az2" {
@@ -15,7 +19,11 @@ resource "aws_subnet" "public_az2" {
     cidr_block              = "10.0.3.0/24"
     availability_zone       = "${var.aws_region}b"
     map_public_ip_on_launch = true
-    tags = { Name = "${var.project_name}-public-az2" }
+    tags = {
+      Name = "${var.project_name}-public-az2"
+      "kubernetes.io/cluster/cloudops-cluster-eks" = "shared"
+      "kubernetes.io/role/elb"                     = "1"
+    }
 }
 
 # ── PRIVATE subnets (no public IP — isolated) ────────
@@ -25,7 +33,11 @@ resource "aws_subnet" "private_az1" {
     cidr_block              = "10.0.2.0/24"
     availability_zone       = "${var.aws_region}a"
     map_public_ip_on_launch = false
-    tags = { Name = "${var.project_name}-private-az1" }
+    tags = {
+      Name = "${var.project_name}-private-az1"
+      "kubernetes.io/cluster/cloudops-cluster-eks" = "shared"
+      "kubernetes.io/role/internal-elb"            = "1"
+    }
 }
 
 resource "aws_subnet" "private_az2" {
@@ -33,5 +45,9 @@ resource "aws_subnet" "private_az2" {
     cidr_block              = "10.0.4.0/24"
     availability_zone       = "${var.aws_region}b"
     map_public_ip_on_launch = false
-    tags = { Name = "${var.project_name}-private-az2" }
+    tags = {
+      Name = "${var.project_name}-private-az2"
+      "kubernetes.io/cluster/cloudops-cluster-eks" = "shared"
+      "kubernetes.io/role/internal-elb"            = "1"
+    }
 }
