@@ -11,6 +11,12 @@ SERVICES=(
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_DIR="$SCRIPT_DIR/../environments/dev"
 
+# nat-down.sh's targeted destroy of the NAT gateways also fully destroys the
+# private route tables AND their subnet associations (not just an in-place
+# route update — Terraform pulls in the full dependent resource on destroy).
+# So recreating just the NAT gateways + route tables here isn't enough; the
+# associations must be explicitly targeted too, or the private subnets stay
+# unassociated with any route table after this runs.
 echo "== Recreating NAT gateways + EIPs (targeted) =="
 cd "$ENV_DIR"
 terraform init -input=false >/dev/null
@@ -20,7 +26,9 @@ terraform apply -input=false -auto-approve \
   -target=module.vpc.aws_nat_gateway.az1 \
   -target=module.vpc.aws_nat_gateway.az2 \
   -target=module.vpc.aws_route_table.private_az1 \
-  -target=module.vpc.aws_route_table.private_az2
+  -target=module.vpc.aws_route_table.private_az2 \
+  -target=module.vpc.aws_route_table_association.private_az1 \
+  -target=module.vpc.aws_route_table_association.private_az2
 
 echo "== Waiting ~60s for NAT gateways to pass health checks before scaling up =="
 sleep 60
