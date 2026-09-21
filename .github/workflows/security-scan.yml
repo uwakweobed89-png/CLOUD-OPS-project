@@ -1,0 +1,13 @@
+name: Security Scan
+
+# Shared DevSecOps gate (Gitleaks secrets + Trivy deps/IaC + Semgrep SAST),
+# maintained centrally in the devsecops-pipeline repo and reused here. Runs on
+# every push and PR; findings are blocking. Free/OSS only.
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  security:
+    uses: uwakweobed89-png/devsecops-pipeline/.github/workflows/reusable-security.yml@main
